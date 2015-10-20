@@ -826,9 +826,26 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
     return pblock->GetHash();
 }
 
+static const int64 nBlockRewardMineoutCoin = 0.002 * COIN; // ~22,075.2 yearly newly minted
+                                                           //(Interest paid to miners as a reward)
+                                                           // Interest = ~0.25% Yearly
+
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
+    // Mining Phase Subsidy
     int64 nSubsidy = 20 * COIN;
+
+
+    // Mineout Phase Subsidy
+    // Interest paid to miners
+    // by small payouts geared at
+    // maintaining the blockchain
+    // Mineout Reward, starting at block 4,204,800 reward = 0.002 perBlock (starts @ 84.096Million)
+   if (nHeight >= 4204800) 
+   {
+       nSubsidy = nBlockRewardMineoutCoin;
+   }
+
 
     return nSubsidy + nFees;
 }
