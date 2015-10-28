@@ -58,6 +58,15 @@ namespace boost {
 
 using namespace std;
 
+// Define RAND characters
+// Main usage for RPCPASS
+// RAND Generation.
+static const char alphanum[] =
+      "0123456789"
+      "!@#$%^&*()_+<>?=-~"
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      "abcdefghijklmnopqrstuvwxyz";
+
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
 bool fDebug = false;
@@ -1043,9 +1052,49 @@ boost::filesystem::path GetConfigFile()
 void ReadConfigFile(map<string, string>& mapSettingsRet,
                     map<string, vector<string> >& mapMultiSettingsRet)
 {
-    boost::filesystem::ifstream streamConfig(GetConfigFile());
-    if (!streamConfig.good())
-        return; // No binarycoin.conf file is OK
+        boost::filesystem::ifstream streamConfig(GetConfigFile());
+        if (!streamConfig.good())
+        {
+            boost::filesystem::path ConfPath;
+                   ConfPath = GetDefaultDataDir() / "binarycoin.conf";
+                   FILE* ConfFile = fopen(ConfPath.string().c_str(), "w");
+                   fprintf(ConfFile, "listen=1\n");
+                   fprintf(ConfFile, "server=1\n");
+                   fprintf(ConfFile, "maxconnections=50\n");
+                   fprintf(ConfFile, "rpcuser=yourusername\n");
+
+                   char s[26];
+                   for (int i = 0; i < 26; ++i)
+                   {
+                       s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+                   }
+
+                   std::string str(s);
+                   std::string rpcpass = "rpcpassword=" + str + "\n";
+                   fprintf(ConfFile, rpcpass.c_str());
+                   fprintf(ConfFile, "port=28950\n");
+                   fprintf(ConfFile, "rpcport=28920\n");
+                   fprintf(ConfFile, "rpcconnect=127.0.0.1\n");
+                   fprintf(ConfFile, "addnode=173.20.221.70:28950\n");
+                   fprintf(ConfFile, "addnode=192.241.235.239:28950\n");
+                   fprintf(ConfFile, "addnode=46.101.224.176:28950\n");
+                   fprintf(ConfFile, "addnode=128.199.82.183:28950\n");
+                   fprintf(ConfFile, "addnode=46.101.63.107:28950\n");
+                   fprintf(ConfFile, "addnode=178.62.130.89:28950\n");
+                   fprintf(ConfFile, "addnode=104.131.121.211:28950\n");
+                   fprintf(ConfFile, "addnode=162.243.147.101:28950\n");
+                   fprintf(ConfFile, "addnode=188.166.60.96:28950\n");
+                   fprintf(ConfFile, "addnode=198.199.80.145:28950\n");
+                   fprintf(ConfFile, "addnode=104.131.121.211:28950\n");
+                   fprintf(ConfFile, "addnode=46.101.19.150:28950\n");
+                   fprintf(ConfFile, "addnode=159.203.3.25:28950\n");
+                   fprintf(ConfFile, "addnode=159.203.14.27:28950\n");
+
+                   fclose(ConfFile);
+                   // Returns our config path, created config file is NOT loaded first time...
+                   // Wallet will need to be reloaded before config file is properly read...
+                   return ;
+          }
 
     set<string> setOptions;
     setOptions.insert("*");

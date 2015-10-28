@@ -46,6 +46,21 @@ private:
 private slots:
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
+    void on_bct_btn_pressed();
+    void on_bct_btn_released();
+    void on_ex_btn_pressed();
+    void on_ex_btn_released();
+    void on_current_btn_pressed();
+    void on_current_btn_released();
+    void on_info_btn_pressed();
+    void on_info_btn_released();
+    void on_old_btn_pressed();
+    void on_old_btn_released();
+    void on_old_btn_clicked();
+    void on_current_btn_clicked();
+    void on_bct_btn_clicked();
+    void on_ex_btn_clicked();
+    void on_info_btn_clicked();
 };
 
 #endif // OVERVIEWPAGE_H
