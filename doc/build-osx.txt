@@ -37,7 +37,7 @@ git clone git@github.com:litecoin-project/litecoin.git litecoin
 
 3.  Install dependencies from MacPorts
 
-sudo port install boost db48 openssl miniupnpc
+sudo port install boost db57 openssl miniupnpc
 
 Optionally install qrencode (and set USE_QRCODE=1):
 sudo port install qrencode

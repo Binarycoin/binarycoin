@@ -61,6 +61,12 @@ private slots:
     void on_bct_btn_clicked();
     void on_ex_btn_clicked();
     void on_info_btn_clicked();
+    void on_cctbtn_pressed();
+    void on_cctbtn_released();
+    void on_cctbtn_clicked();
+    void on_ccexbtn_pressed();
+    void on_ccexbtn_released();
+    void on_ccexbtn_clicked();
 };
 
 #endif // OVERVIEWPAGE_H

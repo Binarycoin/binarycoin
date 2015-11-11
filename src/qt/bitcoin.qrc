@@ -54,13 +54,19 @@
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash2.png</file>
-        <file>res/images/exchange_base.png</file>
-        <file>res/images/exchange_base_2.png</file>
-        <file>res/images/bct_base.png</file>
-        <file>res/images/bct_base_2.png</file>
         <file>res/images/Binary_Bannerinfo1.png</file>
         <file>res/images/Binary_BannerOLD1.png</file>
         <file>res/images/Binary_Banner.png</file>
+        <file>res/images/bex.png</file>
+        <file>res/images/bexr.png</file>
+        <file>res/images/btctalk.png</file>
+        <file>res/images/btctalkr.png</file>
+        <file>res/images/ccexbtn.png</file>
+        <file>res/images/ccexbtnr.png</file>
+        <file>res/images/cct.png</file>
+        <file>res/images/cctr.png</file>
+        <file>res/images/topiabtn.png</file>
+        <file>res/images/topiabtnr.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="update_spinner">res/movies/update_spinner.mng</file>

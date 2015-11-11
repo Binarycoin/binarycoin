@@ -207,13 +207,13 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 // BTN PRESS CTRL FUNCTION
 void OverviewPage::on_bct_btn_pressed()
 {
-    QPixmap pix(":/images/res/images/bct_base_2.png");
+    QPixmap pix(":/images/res/images/btctalkr.png");
     this->ui->bct_btn->setIcon(pix);
 }
-// BTN PRELEASE CTRL FUNCTION
+// BTN RELEASE CTRL FUNCTION
 void OverviewPage::on_bct_btn_released()
 {
-    QPixmap pix(":/images/res/images/bct_base.png");
+    QPixmap pix(":/images/res/images/btctalk.png");
     this->ui->bct_btn->setIcon(pix);
 }
 // BTN ACTION
@@ -229,13 +229,13 @@ void OverviewPage::on_bct_btn_clicked()
 // BTN PRESS CTRL FUNCTION
 void OverviewPage::on_ex_btn_pressed()
 {
-    QPixmap pix(":/images/res/images/exchange_base_2.png");
+    QPixmap pix(":/images/res/images/topiabtnr.png");
     this->ui->ex_btn->setIcon(pix);
 }
-// BTN PRELEASE CTRL FUNCTION
+// BTN RELEASE CTRL FUNCTION
 void OverviewPage::on_ex_btn_released()
 {
-    QPixmap pix(":/images/res/images/exchange_base.png");
+    QPixmap pix(":/images/res/images/topiabtn.png");
     this->ui->ex_btn->setIcon(pix);
 }
 // BTN ACTION
@@ -254,7 +254,7 @@ void OverviewPage::on_current_btn_pressed()
     QPixmap pix(":/icons/res/icons/nbic_2.png");
     this->ui->current_btn->setIcon(pix);
 }
-// BTN PRELEASE CTRL FUNCTION
+// BTN RELEASE CTRL FUNCTION
 void OverviewPage::on_current_btn_released()
 {
     QPixmap pix(":/icons/res/icons/nbic.png");
@@ -277,7 +277,7 @@ void OverviewPage::on_info_btn_pressed()
     QPixmap pix(":/icons/res/icons/ibic.png");
     this->ui->info_btn->setIcon(pix);
 }
-// BTN PRELEASE CTRL FUNCTION
+// BTN RELEASE CTRL FUNCTION
 void OverviewPage::on_info_btn_released()
 {
     QPixmap pix(":/icons/res/icons/ibic_2.png");
@@ -299,7 +299,7 @@ void OverviewPage::on_old_btn_pressed()
     QPixmap pix(":/icons/res/icons/bic_2.png");
     this->ui->old_btn->setIcon(pix);
 }
-
+// BTN RELEASE CTRL FUNCTION
 void OverviewPage::on_old_btn_released()
 {
     QPixmap pix(":/icons/res/icons/bic.png");
@@ -310,4 +310,48 @@ void OverviewPage::on_old_btn_clicked()
 {
     QPixmap pix(":/images/res/images/Binary_BannerOLD1.png");
     this->ui->label_walletart->setPixmap(pix);
+}
+
+// -------------------------
+// CRYPTOCOIN TALK BTN
+// -------------------------
+// BTN PRESS CTRL FUNCTION
+void OverviewPage::on_cctbtn_pressed()
+{
+    QPixmap pix(":/images/res/images/cctr.png");
+    this->ui->cctbtn->setIcon(pix);
+}
+// BTN RELEASS CTRL FUNCTION
+void OverviewPage::on_cctbtn_released()
+{
+    QPixmap pix(":/images/res/images/cct.png");
+    this->ui->cctbtn->setIcon(pix);
+}
+// BTN ACTION
+void OverviewPage::on_cctbtn_clicked()
+{
+    QString link="https://cryptocointalk.com/topic/42780-ann-binarybic-scrypt-15-sec-blocks-84m-coins-binarycoin-revived/";
+    QDesktopServices::openUrl(QUrl(link));
+}
+
+// -------------------------
+// C-CEX BTN
+// -------------------------
+// BTN PRESS CTRL FUNCTION
+void OverviewPage::on_ccexbtn_pressed()
+{
+    QPixmap pix(":/images/res/images/ccexbtnr.png");
+    this->ui->ccexbtn->setIcon(pix);
+}
+// BTN RELEASS CTRL FUNCTION
+void OverviewPage::on_ccexbtn_released()
+{
+    QPixmap pix(":/images/res/images/ccexbtn.png");
+    this->ui->ccexbtn->setIcon(pix);
+}
+// BTN ACTION
+void OverviewPage::on_ccexbtn_clicked()
+{
+    QString link="https://c-cex.com/?p=bic-btc";
+    QDesktopServices::openUrl(QUrl(link));
 }
