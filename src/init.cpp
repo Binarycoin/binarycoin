@@ -146,8 +146,6 @@ bool AppInit(int argc, char* argv[])
         mapMultiArgs["-addnode"].push_back("173.20.221.70:28950");
         mapMultiArgs["-addnode"].push_back("159.203.3.25:28950");
         mapMultiArgs["-addnode"].push_back("259.203.14.27:28950");
-        mapMultiArgs["-addnode"].push_back("159.203.12.73:28950");
-        mapMultiArgs["-addnode"].push_back("107.170.249.124:28950");
 
         if (mapArgs.count("-?") || mapArgs.count("--help"))
         {
