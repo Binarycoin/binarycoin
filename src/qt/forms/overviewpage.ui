@@ -585,7 +585,7 @@
   </widget>
   <widget class="QPushButton" name="bexbtn">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>

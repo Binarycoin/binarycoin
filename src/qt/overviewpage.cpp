@@ -355,3 +355,25 @@ void OverviewPage::on_ccexbtn_clicked()
     QString link="https://c-cex.com/?p=bic-btc";
     QDesktopServices::openUrl(QUrl(link));
 }
+
+// -------------------------
+// Block Explorer BTN
+// -------------------------
+// BTN PRESS CTRL FUNCTION
+void OverviewPage::on_bexbtn_pressed()
+{
+    QPixmap pix(":/images/res/images/bexr.png");
+    this->ui->bexbtn->setIcon(pix);
+}
+// BTN RELEASS CTRL FUNCTION
+void OverviewPage::on_bexbtn_released()
+{
+    QPixmap pix(":/images/res/images/bex.png");
+    this->ui->bexbtn->setIcon(pix);
+}
+// BTN ACTION
+void OverviewPage::on_bexbtn_clicked()
+{
+    QString link="http://cryptobe.com/chain/Binary";
+    QDesktopServices::openUrl(QUrl(link));
+}

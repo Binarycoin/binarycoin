@@ -67,6 +67,9 @@ private slots:
     void on_ccexbtn_pressed();
     void on_ccexbtn_released();
     void on_ccexbtn_clicked();
+    void on_bexbtn_pressed();
+    void on_bexbtn_released();
+    void on_bexbtn_clicked();
 };
 
 #endif // OVERVIEWPAGE_H

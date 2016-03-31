@@ -29,7 +29,6 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0xf79afea830fe509c6158ee87e425ba95133cd3dc30d732b44883895ae03c9ad1");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -444,7 +443,7 @@ bool CTransaction::CheckTransaction() const
     {
         if (txout.nValue < 0)
             return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue negative"));
-        if (txout.nValue > MAX_MONEY)
+        if (txout.nValue > MAX_PER_TX)
             return DoS(100, error("CTransaction::CheckTransaction() : txout.nValue too high"));
         nValueOut += txout.nValue;
         if (!MoneyRange(nValueOut))
@@ -826,37 +825,20 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
     return pblock->GetHash();
 }
 
-static const int64 nBlockRewardMineoutCoin = 0.002 * COIN; // ~22,075.2 yearly newly minted
-                                                           //(Interest paid to miners as a reward)
-                                                           // Interest = ~0.25% Yearly
-
-
+// Mining coinbase payout
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
     // Mining Phase Subsidy
-    int64 nSubsidy = 20 * COIN;
+    int64 nSubsidy = nBlockMiningPhase;
 
-     // Mineout Phase Subsidy
-     // Interest paid to miners
-     // by small payouts geared at
-     // maintaining the blockchain
-     // Mineout Reward, starting at block 4,204,800 reward = 0.002 perBlock (starts @ 84.096Million)
-     if (nHeight >= 4204800)
+    // Mineout Phase Subsidy
+     if (nHeight >= nMineoutBlock)
      {
-     nSubsidy = nBlockRewardMineoutCoin;
+     nSubsidy = nBlockMineoutPhase;
      }
 
     return nSubsidy + nFees;
 }
-
-static const int64 nTargetTimespan = 0.20 * 24 * 60 * 60; // BinaryCoin: 0.20 days
-static const int64 nTargetSpacing = 15; // BinaryCoin: 15 seconds
-static const int64 nInterval = nTargetTimespan / nTargetSpacing;
-
-// Thanks: Balthazar for suggesting the following fix
-// https://bitcointalk.org/index.php?topic=182430.msg1904506#msg1904506
-static const int64 nReTargetHistoryFact = 4; // look at 4 times the retarget
-                                             // interval into the block history
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1997,7 +1979,7 @@ bool LoadBlockIndex(bool fAllowNew)
         pchMessageStart[1] = 0xc0;
         pchMessageStart[2] = 0xb8;
         pchMessageStart[3] = 0xdb;
-        hashGenesisBlock = uint256("0x2b7dc0e04ea761cb1c1fcec88e2370c8718114e76b1a207528d911db9000b870"); //changed from a50faf35e1dddf4a076a907fbcef6d9d1595390cdb1c818a35dae53b67ad0aa8
+        hashGenesisBlock = hashTestNetGenesisBlock; //changed from a50faf35e1dddf4a076a907fbcef6d9d1595390cdb1c818a35dae53b67ad0aa8
     }
 
     //
@@ -2041,13 +2023,13 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1387808057; //changed from 1366559428
+        block.nTime    = timeGenesisBlock; //changed from 1366559428
         block.nBits    = 0x1e0ffff0;
         block.nNonce   = 291281; //changed from 2085386442
 
         if (fTestNet)
         {
-           block.nTime    = 1387795744; //changed from 1366559428
+           block.nTime    = timeTestNetGenesisBlock; //changed from 1366559428
            block.nNonce   = 1546975;  //changed from 386402991
         }
 
@@ -2055,7 +2037,7 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("%s\n", block.GetHash().ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0xb48f53b21f0d849ecd02c4bccf7210e13e20e4ab5f8c986504548f1b43d4fd54")); //changed from 5a2e19825b4162f68602039040f1e05d9f924ff00a3aff7327ca6abd6f3279bc
+        assert(block.hashMerkleRoot == nGenesisMerkle);
 
         // If genesis block hash does not match, then generate new genesis hash.
         if (false && block.GetHash() != hashGenesisBlock)

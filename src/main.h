@@ -34,14 +34,45 @@ class CNode;
 
 // for now, we leave the block size at 1 MB, meaning we support roughly 2400 transactions
 // per block, which means about 160 tps
+/** The maximum allowed size for a serialized block, in bytes (network rule) */
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
+/** The maximum size for mined blocks */
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
+/** The maximum allowed number of signature check operations in a block (network rule) */
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
+/** The maximum number of orphan transactions kept in memory */
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
+/** Minimum fee for per tx */
 static const int64 MIN_TX_FEE = 10000000;
+/** Minimum fee for per relay */
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
-static const int64 MAX_MONEY = 84096000 * COIN; // maximum of 84 096 000 coins
-inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
+/** Genesis Start Time */
+static const unsigned int timeGenesisBlock = 1387808057;
+/** Genesis TestNet Start Time */
+static const unsigned int timeTestNetGenesisBlock = 1387795744;
+/** No amount larger than this (in Binarycoin) is valid per single TX usually used as a softCap */
+static const int64 MAX_PER_TX = 84096000 * COIN; // Per TX size limit: maximum of 84 096 000 coins
+/** Minimum block subsidy */
+static const int64 nBlockMiningPhase = 20 * COIN;
+/** Mineout/HardCap block subsidy Interest = ~0.25% Yearly*/
+static const int64 nBlockMineoutPhase = 0.002 * COIN; // ~22,075.2 yearly newly minted (Interest paid to miners as a reward)
+/** Invalid block subsidy */
+static const int64 nBlockRewardInvalid = 0.0001 * COIN;
+/** Mineout/HardCap block Height [HardCap v1.5] */
+static const int64 nMineoutBlock = 4204800; // Mineout Reward, starting at block 4,204,800 reward = 0.002 perBlock (starts @ 84.096Million)
+/** Difficulty Retarget Timespan */  
+static const int64 nTargetTimespan = 0.20 * 24 * 60 * 60; // BinaryCoin: 0.20 days
+/** Difficulty Retarget Spacing */
+static const int64 nTargetSpacing = 15; // BinaryCoin: 15 seconds
+/** Difficulty Block Interval */
+static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+/** Thanks: Balthazar for suggesting the following fix */
+static const int64 nReTargetHistoryFact = 4; // look at 4 times the retarget interval into the block history
+/** Genesis Param Inputs */
+static const uint256 hashGenesisBlock("0xf79afea830fe509c6158ee87e425ba95133cd3dc30d732b44883895ae03c9ad1");
+static const uint256 hashTestNetGenesisBlock("0x2b7dc0e04ea761cb1c1fcec88e2370c8718114e76b1a207528d911db9000b870");
+static const uint256 nGenesisMerkle("0xb48f53b21f0d849ecd02c4bccf7210e13e20e4ab5f8c986504548f1b43d4fd54");
+inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_PER_TX); }
 static const int COINBASE_MATURITY = 10;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
@@ -61,7 +92,7 @@ extern CScript COINBASE_FLAGS;
 
 extern CCriticalSection cs_main;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
-extern uint256 hashGenesisBlock;
+//extern uint256 hashGenesisBlock;
 extern CBlockIndex* pindexGenesisBlock;
 extern int nBestHeight;
 extern CBigNum bnBestChainWork;
@@ -585,12 +616,12 @@ public:
         if (nBlockSize != 1 && nNewBlockSize >= MAX_BLOCK_SIZE_GEN/2)
         {
             if (nNewBlockSize >= MAX_BLOCK_SIZE_GEN)
-                return MAX_MONEY;
+                return MAX_PER_TX;
             nMinFee *= MAX_BLOCK_SIZE_GEN / (MAX_BLOCK_SIZE_GEN - nNewBlockSize);
         }
 
         if (!MoneyRange(nMinFee))
-            nMinFee = MAX_MONEY;
+            nMinFee = MAX_PER_TX;
         return nMinFee;
     }
 
